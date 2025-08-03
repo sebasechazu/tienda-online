@@ -1,4 +1,5 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -16,7 +17,10 @@
     --color-warning-foreground: #1f2937;
     --color-info: #0ea5e9;
     --color-info-foreground: #ffffff;
+
+    --font-heading: 'Ubuntu', sans-serif;
 }
+
 
 
 body {

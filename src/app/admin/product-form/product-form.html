@@ -1,34 +1,51 @@
 <!-- src/app/product-form/product-form.html -->
 
-<section class="container mx-auto p-6 max-w-2xl">
+<section class=" mx-auto p-6">
     <!-- 🌟 Título según computed `title` -->
-    <div class="mb-8">
-        <h1 class="text-4xl font-bold text-primary mb-2">{{ title() }}</h1>
-        <p class="text-muted-foreground">Completa los detalles del producto</p>
+     <div class="flex items-start justify-between">
+      <div class="mb-8 w-full">
+        <h1 class="text-4xl font-bold text-primary font-heading mb-2">
+          {{ title() }}
+        </h1>
+        <p class="text-slate-500">
+          Completa los detalles del producto
+        </p>
     </div>
+    <button type="button"
+      (click)="onCancel()"
+      class="w-full max-w-40 bg-transparent hover:bg-primary cursor-pointer text-muted-foreground font-semibold px-6 py-3 rounded-md  hover:text-white transition-all duration-300 flex items-center justify-center space-x-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      <span>Cancelar</span>
+    </button>
+     </div>
+
 
     <!-- 📋 Formulario reactivo -->
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
-        
+
         <!-- 🖼️ Sección de Imagen con Vista Previa -->
-        <div class="bg-white rounded-xl p-6 border border-muted-foreground/10 shadow-sm">
-            <label class="block text-lg font-semibold text-muted-foreground mb-4">📷 Imagen del Producto</label>
-            
+        <div class="bg-white rounded-md p-6 border border-slate-200 ">
+            <label class="block text-2xl font-heading font-semibold text-muted-foreground mb-8">
+              📷 Imagen del Producto
+            </label>
+
             <!-- Vista previa o área de carga -->
             <div class="space-y-4">
                 @if (imagePreview()) {
                 <!-- Vista previa de imagen -->
                 <div class="relative group">
                     <div class="aspect-square max-w-xs mx-auto bg-muted rounded-xl overflow-hidden border-2 border-dashed border-muted-foreground/20">
-                        <img [src]="imagePreview()" 
+                        <img [src]="imagePreview()"
                              [alt]="form.get('nombre')?.value || 'Vista previa'"
                              class="w-full h-full object-cover transition-transform group-hover:scale-105">
                     </div>
-                    
+
                     <!-- Overlay con acciones -->
                     <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center space-x-3">
-                        <button type="button" (click)="removeImage()" 
-                                class="p-2 bg-error text-error-foreground rounded-lg hover:scale-110 transition-all">
+                        <button type="button" (click)="removeImage()"
+                                class="cursor-pointer p-2 bg-error text-error-foreground rounded-lg hover:scale-110 transition-all">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                             </svg>
@@ -46,14 +63,14 @@
                     <p class="text-sm text-muted-foreground/70">PNG, JPG, WEBP hasta 5MB</p>
                 </div>
                 }
-                
+
                 <!-- Input file oculto -->
-                <input #fileInput type="file" 
-                       (change)="onFileSelected($event)" 
+                <input #fileInput type="file"
+                       (change)="onFileSelected($event)"
                        [disabled]="uploading()"
                        accept="image/*"
                        class="hidden" />
-                
+
                 <!-- Estado de carga -->
                 @if (uploading()) {
                 <div class="flex items-center justify-center space-x-3 p-4 bg-primary/10 rounded-lg">
@@ -61,12 +78,12 @@
                     <p class="text-primary font-medium">Subiendo imagen...</p>
                 </div>
                 }
-                
+
                 <!-- Botón para cambiar imagen -->
                 @if (imagePreview() && !uploading()) {
                 <div class="text-center">
                     <button type="button" (click)="fileInput.click()"
-                            class="bg-secondary text-secondary-foreground px-4 py-2 rounded-lg hover:scale-105 transition-all">
+                            class="bg-muted-foreground text-secondary-foreground px-4 py-2 rounded-lg cursor-pointer transition-all">
                         Cambiar Imagen
                     </button>
                 </div>
@@ -75,23 +92,25 @@
         </div>
 
         <!-- 📝 Información del Producto -->
-        <div class="bg-white rounded-xl p-6 border border-muted-foreground/10 shadow-sm space-y-4">
-            <h3 class="text-lg font-semibold text-muted-foreground mb-4">📋 Información Básica</h3>
-            
+        <div class="bg-white rounded-md p-6 border border-slate-200 space-y-4">
+            <h3 class="text-2xl font-semibold text-muted-foreground mb-8 font-heading">
+              📋 Información Básica
+            </h3>
+
             <!-- Nombre -->
             <div>
                 <label class="block font-medium text-muted-foreground mb-2">Nombre del Producto</label>
-                <input formControlName="nombre" 
+                <input formControlName="nombre"
                        placeholder="Ej: iPhone 15 Pro Max"
-                       class="w-full border border-muted-foreground/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all" />
+                       class="w-full border border-muted-foreground/20 rounded-lg px-4 py-3 transition-all" />
             </div>
 
             <!-- Descripción -->
             <div>
                 <label class="block font-medium text-muted-foreground mb-2">Descripción</label>
-                <textarea formControlName="descripcion" 
+                <textarea formControlName="descripcion"
                           placeholder="Describe las características principales del producto..."
-                          class="w-full border border-muted-foreground/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none" 
+                          class="w-full border border-muted-foreground/20 rounded-lg px-4 py-3 transition-all resize-none"
                           rows="4"></textarea>
             </div>
 
@@ -102,35 +121,28 @@
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <span class="text-muted-foreground text-lg">$</span>
                     </div>
-                    <input type="number" 
-                           formControlName="precio" 
+                    <input type="number"
+                           formControlName="precio"
                            placeholder="0.00"
                            min="0"
                            step="0.01"
-                           class="w-full border border-muted-foreground/20 rounded-lg pl-8 pr-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all" />
+                           class="w-full border border-muted-foreground/20 rounded-lg pl-8 pr-4 py-3  transition-all" />
                 </div>
             </div>
         </div>
 
         <!-- 🎯 Botones de Acción -->
         <div class="flex flex-col sm:flex-row gap-3 pt-6">
-            <button type="submit" 
-                    [disabled]="form.invalid || uploading()" 
-                    class="flex-1 bg-gradient-to-r from-success to-primary text-white font-semibold px-6 py-3 rounded-xl hover:scale-105 hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center space-x-2">
+            <button type="submit"
+                    [disabled]="form.invalid || uploading()"
+                    class="flex-1 bg-gradient-to-r from-secondary to-primary text-white font-semibold px-6 py-3 rounded-xl cursor-pointer hover:shadow-lg transition-all duration-300 disabled:opacity-50 max-w-96 mx-auto disabled:cursor-not-allowed  flex items-center justify-center space-x-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <span>💾 Guardar Producto</span>
+                <span>Guardar Producto</span>
             </button>
 
-            <button type="button" 
-                    (click)="onCancel()" 
-                    class="flex-1 bg-muted text-muted-foreground font-semibold px-6 py-3 rounded-xl hover:bg-muted-foreground hover:text-white transition-all duration-300 flex items-center justify-center space-x-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                <span>↩️ Cancelar</span>
-            </button>
+
         </div>
     </form>
 </section>
